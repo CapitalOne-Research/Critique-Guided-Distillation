@@ -1,0 +1,12 @@
+vllm==0.10.1
+pandas
+tqdm
+datasets
+python_dateutil
+flash_attn
+sympy==1.13.1
+antlr4-python3-runtime==4.11.1
+word2number
+Pebble
+timeout-decorator
+latex2sympy2
