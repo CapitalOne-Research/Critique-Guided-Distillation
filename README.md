@@ -36,6 +36,10 @@ CGD creates a powerful training signal by teaching the student model to refine i
 4. **Fine-Tune:** The student is trained to map *(prompt, student answer, critique) &rarr; refined answer*. At inference, only the prompt is provided---the model generates refined answers directly in a single pass.
 
 <p align="center">
+  <img src="res/cgd_overview.png" width="85%" alt="CGD Method Overview">
+</p>
+
+<p align="center">
   <img src="res/accuracy_combined.png" width="90%" alt="CGD Results Visualization">
 </p>
 
@@ -155,6 +159,28 @@ CGD is significantly more robust to hyperparameter choices than CFT:
 | CFT | 39.3 | 30.1 (-9.2) |
 | **CGD (Ours)** | **44.8** | **42.2 (-2.6)** |
 
+### Attention Analysis: Plan-then-Execute Reasoning
+
+CGD-trained models exhibit a distinctive "plan-then-execute" reasoning strategy. Early transformer layers attend heavily to the critique (planning), while later layers shift focus to the problem statement (execution):
+
+<p align="center">
+  <img src="res/figure_1_attention_flow.png" width="85%" alt="Attention flow across layers">
+</p>
+
+<p align="center">
+  <img src="res/figure_2_attention_vs_layer.png" width="85%" alt="Average attention per layer">
+</p>
+
+At Layer 0, **48.1%** of attention goes to the critique and **36.0%** to the student answer. By the final layers, **>90%** of attention focuses on the problem statement. This demonstrates that the model internalizes critique guidance early and acts on it during solution generation.
+
+### Training Loss Dynamics
+
+CGD exhibits a smoother, more stable training loss compared to CFT, which shows initial spikes due to format drift:
+
+<p align="center">
+  <img src="res/loss_curve.png" width="70%" alt="Training loss comparison">
+</p>
+
 ---
 
 ## Getting Started
@@ -257,7 +283,7 @@ If you find this work useful, please cite:
 ```bibtex
 @inproceedings{kapusuzoglu2026cgd,
   title={Critique-Guided Distillation for Robust Reasoning via Refinement},
-  author={Kapusuzoglu, Berkcan},
+  author={Kapusuzoglu, Berkcan and Chakraborty, Supriyo and Sarwar, Zain and Lee, Chia-Hsuan and Sahu, Sambit},
   booktitle={Proceedings of the 43rd International Conference on Machine Learning (ICML)},
   year={2026}
 }
